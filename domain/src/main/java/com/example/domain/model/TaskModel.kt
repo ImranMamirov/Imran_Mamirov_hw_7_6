@@ -1,6 +1,6 @@
 package com.example.domain.model
 
-data class Task(
-    val taskId: Int,
+data class TaskModel(
+    val taskId: Long,
     val taskName: String
 )

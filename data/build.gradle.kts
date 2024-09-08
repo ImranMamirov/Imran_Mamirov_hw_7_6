@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
+    kotlin("kapt")
 }
 
 android {
@@ -35,20 +35,25 @@ android {
 
 dependencies {
 
-    implementation(project(":domain"))
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(kotlin("stdlib"))
 
-    // Koin
-    implementation("io.insert-koin:koin-android:3.5.6")
-    implementation("io.insert-koin:koin-core:3.3.0")
+    implementation(project(":domain"))
 
     // Room
+    implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+    // Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+
+    // Koin для Dependency Injection
+    implementation("io.insert-koin:koin-android:3.5.6")
+
 }
