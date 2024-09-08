@@ -1,11 +1,16 @@
 package com.example.imran_mamirov_hw_7_6.di
 
-import com.example.imran_mamirov_hw_7_6.ui.viewmodel.TaskViewModel
+import com.example.imran_mamirov_hw_7_6.ui.fragment.taskCreate.TaskCreateViewModel
+import com.example.imran_mamirov_hw_7_6.ui.fragment.taskList.TaskListVIewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel {
-        TaskViewModel(get(), get(), get(), get(), get())
+        TaskCreateViewModel(get())
+    }
+
+    viewModel {
+        TaskListVIewModel(get(), get(), get())
     }
 }

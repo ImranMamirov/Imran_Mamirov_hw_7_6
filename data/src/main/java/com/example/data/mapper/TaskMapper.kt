@@ -1,14 +1,14 @@
 package com.example.data.mapper
 
-import com.example.data.model.TaskEntity
-import com.example.domain.model.TaskModel
+import com.example.data.model.TaskEntityDto
+import com.example.domain.model.Task
 
-fun TaskModel.toEntity(): TaskEntity = TaskEntity(
-    taskId = this.taskId,
+fun Task.toEntity(): TaskEntityDto = TaskEntityDto(
+    taskId = this.taskId!!,
     taskName = this.taskName
 )
 
-fun TaskEntity.toDomain(): TaskModel = TaskModel(
+fun TaskEntityDto.toDomain(): Task = Task(
     taskId = this.taskId,
     taskName = this.taskName
 )

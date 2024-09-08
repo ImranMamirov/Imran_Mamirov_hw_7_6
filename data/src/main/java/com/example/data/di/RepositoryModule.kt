@@ -1,4 +1,4 @@
-package com.example.imran_mamirov_hw_7_6.di
+package com.example.data.di
 
 import com.example.data.repository.TaskRepositoryImpl
 import com.example.domain.interfaces.TaskRepository

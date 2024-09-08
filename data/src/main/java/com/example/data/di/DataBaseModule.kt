@@ -1,4 +1,4 @@
-package com.example.imran_mamirov_hw_7_6.di
+package com.example.data.di
 
 import androidx.room.Room
 import com.example.data.db.TaskDatabase

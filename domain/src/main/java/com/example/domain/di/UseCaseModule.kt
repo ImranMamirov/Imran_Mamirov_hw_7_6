@@ -1,4 +1,4 @@
-package com.example.imran_mamirov_hw_7_6.di
+package com.example.domain.di
 
 import com.example.domain.usescase.TasksUseCase
 import org.koin.dsl.module
@@ -9,4 +9,5 @@ val usesCaseModule = module {
     factory { TasksUseCase.GetTaskByIdUseCase(get()) }
     factory { TasksUseCase.UpdateTaskUseCase(get()) }
     factory { TasksUseCase.DeleteTaskUseCase(get()) }
+    factory { TasksUseCase.FetchTaskUseCase(get()) }
 }

@@ -3,16 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/taskFragment">
+    app:startDestination="@id/taskListFragment">
 
     <fragment
-        android:id="@+id/taskFragment"
-        android:name="com.example.imran_mamirov_hw_7_6.ui.fragment.TaskFragment"
+        android:id="@+id/taskListFragment"
+        android:name="com.example.imran_mamirov_hw_7_6.ui.fragment.taskList.TaskListFragment"
         android:label="fragment_task"
-        tools:layout="@layout/fragment_task" />
+        tools:layout="@layout/fragment_task_list" >
+        <action
+            android:id="@+id/action_taskListFragment_to_taskCreateFragment"
+            app:destination="@id/taskCreateFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/taskDetailFragment"
-        android:name="com.example.imran_mamirov_hw_7_6.ui.fragment.TaskDetailFragment"
+        android:id="@+id/taskCreateFragment"
+        android:name="com.example.imran_mamirov_hw_7_6.ui.fragment.taskCreate.TaskCreateFragment"
         android:label="fragment_task_detail"
-        tools:layout="@layout/fragment_task_detail" />
+        tools:layout="@layout/fragment_task_create" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

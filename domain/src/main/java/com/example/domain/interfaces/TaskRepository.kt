@@ -1,12 +1,14 @@
 package com.example.domain.interfaces
 
-import com.example.domain.model.TaskModel
+import com.example.domain.model.Task
+import com.example.domain.model.TaskEntityModel
 import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
-    fun getAllTasks(): Flow<List<TaskModel>>
-    suspend fun insertTask(task: TaskModel)
-    suspend fun deleteTask(task: TaskModel)
-    suspend fun updateTask(task: TaskModel)
-    fun getTaskById(taskId: Long): Flow<TaskModel?>
+    fun getAllTasks(): Flow<List<Task>>
+    suspend fun insertTask(task: TaskEntityModel)
+    suspend fun deleteTask(task: Int)
+    suspend fun updateTask(task: Task)
+    fun getTaskById(taskId: Int): Flow<Task?>
+    suspend fun fetchTasks(): List<TaskEntityModel>
 }
