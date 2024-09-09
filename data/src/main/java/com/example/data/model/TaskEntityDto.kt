@@ -4,13 +4,23 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.domain.model.TaskEntityModel
 
-@Entity(tableName = "task")
+@Entity(tableName = "task_table")
 data class TaskEntityDto(
-    @PrimaryKey(autoGenerate = true)
-    val taskId: Int = 0,
-    val taskName: String
+    @PrimaryKey(autoGenerate = true) val taskId: Long = 0,
+    val taskName: String,
+    val description: String = "",
+    val time: Long
+)
+fun TaskEntityDto.toDomain() = TaskEntityModel(
+    taskId = taskId,
+    taskName = taskName,
+    description = description,
+    time = time
 )
 
-fun TaskEntityDto.toDomain() = TaskEntityModel(taskId = taskId, taskName = taskName)
-
-fun TaskEntityModel.toEntity() = taskId?.let { TaskEntityDto(taskId = it, taskName = taskName) }
+fun TaskEntityModel.fromDomain() = TaskEntityDto(
+    taskId = taskId,
+    taskName = taskName,
+    description = description,
+    time = time
+)

@@ -5,9 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.imran_mamirov_hw_7_6.models.toUi
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.imran_mamirov_hw_7_6.databinding.FragmentTaskListBinding
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,27 +22,28 @@ class TaskListFragment : Fragment() {
         FragmentTaskListBinding.inflate(layoutInflater)
     }
 
-    private val listViewModel by viewModel<TaskListVIewModel>()
+    private val viewModel by viewModel<TaskListViewModel>()
 
-    private val listAdapter = TaskListAdapter()
+    private val taskListAdapter = TaskListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return (binding.root)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvTasksList.adapter = listAdapter
+        binding.rvTasksList.adapter = taskListAdapter
         setupClickListener()
-        initFetchTasks()
+        iniFetchTask()
+        setupRecyclerView()
     }
 
-    private fun initFetchTasks() {
+    private fun iniFetchTask() {
         viewLifecycleOwner.lifecycleScope.launch {
-            listAdapter.submitList(listViewModel.fetchTasks().map { it.toUI()})
+            taskListAdapter.submitList(viewModel.fetchTasks().map { it.toUi() })
         }
     }
 
@@ -45,5 +51,27 @@ class TaskListFragment : Fragment() {
         binding.btnAdd.setOnClickListener {
             findNavController().navigate(TaskListFragmentDirections.actionTaskListFragmentToTaskCreateFragment(id))
         }
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvTasksList.adapter = taskListAdapter
+
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val task = taskListAdapter.currentList[viewHolder.adapterPosition]
+                viewModel.deleteTask(task.taskId)
+            }
+        })
+
+        itemTouchHelper.attachToRecyclerView(binding.rvTasksList)
     }
 }

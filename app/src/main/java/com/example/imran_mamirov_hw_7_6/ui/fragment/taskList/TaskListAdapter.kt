@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import com.example.imran_mamirov_hw_7_6.databinding.ItemTaskBinding
 import com.example.imran_mamirov_hw_7_6.models.TaskEntityUI
 
@@ -25,9 +25,23 @@ class TaskListAdapter : ListAdapter<TaskEntityUI, TaskListAdapter.TaskListViewHo
     }
 
     inner class TaskListViewHolder(private val binding: ItemTaskBinding) :
-        ViewHolder(binding.root) {
-        fun onBind(taskEntityUi: TaskEntityUI) {
+        RecyclerView.ViewHolder(binding.root) {
 
+        fun onBind(taskEntityUi: TaskEntityUI) {
+            with(binding) {
+                tvTaskName.text = taskEntityUi.taskName
+                tvTaskDescription.text = taskEntityUi.description
+                tvTaskTime.text = formatTime(taskEntityUi.time)
+            }
+        }
+
+        private fun formatTime(timeInMillis: Long): String {
+            val calendar = java.util.Calendar.getInstance().apply {
+                timeInMillis = timeInMillis
+            }
+            val hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(java.util.Calendar.MINUTE)
+            return String.format("%02d:%02d", hour, minute)
         }
     }
 

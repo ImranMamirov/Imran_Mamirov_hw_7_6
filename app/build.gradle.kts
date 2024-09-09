@@ -55,6 +55,8 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.core)
 
     // Navigation
     implementation(libs.androidx.navigation.fragment.ktx)

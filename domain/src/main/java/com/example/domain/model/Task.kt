@@ -1,6 +1,8 @@
 package com.example.domain.model
 
 data class Task(
-    val taskId: Int?,
-    val taskName: String
+    val taskId: Int = 0,
+    val taskName: String,
+    val description: String,
+    val time: Int
 )

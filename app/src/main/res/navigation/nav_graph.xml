@@ -13,12 +13,24 @@
         <action
             android:id="@+id/action_taskListFragment_to_taskCreateFragment"
             app:destination="@id/taskCreateFragment" />
+        <action
+            android:id="@+id/action_taskListFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskCreateFragment"
         android:name="com.example.imran_mamirov_hw_7_6.ui.fragment.taskCreate.TaskCreateFragment"
         android:label="fragment_task_detail"
         tools:layout="@layout/fragment_task_create" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.imran_mamirov_hw_7_6.ui.fragment.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
         <argument
             android:name="id"
             app:argType="integer" />

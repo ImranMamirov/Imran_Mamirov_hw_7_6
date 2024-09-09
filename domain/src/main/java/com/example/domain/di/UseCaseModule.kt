@@ -1,13 +1,14 @@
 package com.example.domain.di
 
-import com.example.domain.usescase.TasksUseCase
+import com.example.domain.usescase.DeleteTaskUseCase
+import com.example.domain.usescase.FetchTaskUseCase
+import com.example.domain.usescase.GetTaskUseCase
+import com.example.domain.usescase.InsertTaskUseCase
 import org.koin.dsl.module
 
 val usesCaseModule = module {
-    factory { TasksUseCase.InsertTaskUseCase(get()) }
-    factory { TasksUseCase.GetAllTasksUseCase(get()) }
-    factory { TasksUseCase.GetTaskByIdUseCase(get()) }
-    factory { TasksUseCase.UpdateTaskUseCase(get()) }
-    factory { TasksUseCase.DeleteTaskUseCase(get()) }
-    factory { TasksUseCase.FetchTaskUseCase(get()) }
+    factory { DeleteTaskUseCase(get()) }
+    factory { InsertTaskUseCase(get()) }
+    factory { FetchTaskUseCase(get()) }
+    factory { GetTaskUseCase(get()) }
 }

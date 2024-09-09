@@ -3,10 +3,12 @@ package com.example.imran_mamirov_hw_7_6.models
 import com.example.domain.model.TaskEntityModel
 
 data class TaskEntityUI(
-    val taskId: Int,
-    val taskName: String
+    val taskId: Long,
+    val taskName: String,
+    val description: String,
+    val time: Long
 )
 
-fun TaskEntityModel.toUI() = TaskEntityUI(taskId!!, taskName)
+fun TaskEntityModel.toUi() = TaskEntityUI(taskId, taskName, description, time)
 
-fun TaskEntityUI.fromDomain() = TaskEntityModel(taskId, taskName)
+fun TaskEntityUI.fromDomain() = TaskEntityModel(taskId, taskName, description, time)
