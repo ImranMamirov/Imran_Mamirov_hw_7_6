@@ -20,7 +20,7 @@ class TaskListViewModel(
         }
     }
 
-    fun deleteTask(taskId: Int) {
+    fun deleteTask(taskId: Long) {
         viewModelScope.launch {
             deleteTaskUseCase(taskId)
         }

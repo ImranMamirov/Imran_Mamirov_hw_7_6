@@ -8,7 +8,7 @@ import com.example.domain.model.TaskEntityModel
 data class TaskEntityDto(
     @PrimaryKey(autoGenerate = true) val taskId: Long = 0,
     val taskName: String,
-    val description: String = "",
+    val description: String,
     val time: Long
 )
 fun TaskEntityDto.toDomain() = TaskEntityModel(

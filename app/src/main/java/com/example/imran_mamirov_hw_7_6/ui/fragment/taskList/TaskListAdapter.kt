@@ -8,14 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.imran_mamirov_hw_7_6.databinding.ItemTaskBinding
 import com.example.imran_mamirov_hw_7_6.models.TaskEntityUI
 
-class TaskListAdapter : ListAdapter<TaskEntityUI, TaskListAdapter.TaskListViewHolder>(TaskDiffUtil()) {
+class TaskListAdapter(private val onItemClick: (taskId: Int) -> Unit) :
+    ListAdapter<TaskEntityUI, TaskListAdapter.TaskListViewHolder>(TaskDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskListViewHolder {
         return TaskListViewHolder(
             ItemTaskBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }
@@ -33,11 +32,15 @@ class TaskListAdapter : ListAdapter<TaskEntityUI, TaskListAdapter.TaskListViewHo
                 tvTaskDescription.text = taskEntityUi.description
                 tvTaskTime.text = formatTime(taskEntityUi.time)
             }
+
+            itemView.setOnClickListener {
+                onItemClick(taskEntityUi.taskId.toInt())
+            }
         }
 
-        private fun formatTime(timeInMillis: Long): String {
+        private fun formatTime(_timeInMillis: Long): String {
             val calendar = java.util.Calendar.getInstance().apply {
-                timeInMillis = timeInMillis
+                timeInMillis = _timeInMillis
             }
             val hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
             val minute = calendar.get(java.util.Calendar.MINUTE)

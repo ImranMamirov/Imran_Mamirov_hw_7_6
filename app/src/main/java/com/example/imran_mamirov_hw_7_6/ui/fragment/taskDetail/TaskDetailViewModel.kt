@@ -1,4 +1,4 @@
-package com.example.imran_mamirov_hw_7_6.ui.fragment.detail
+package com.example.imran_mamirov_hw_7_6.ui.fragment.taskDetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.imran_mamirov_hw_7_6.databinding.FragmentTaskCreateBinding
@@ -20,6 +21,8 @@ class TaskCreateFragment : Fragment() {
 
     private val viewModel by viewModel<TaskCreateViewModel>()
 
+    private var selectedTimeInMillis: Long? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,23 +33,26 @@ class TaskCreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBtnCreateListener()
-        showTimePickerDialog()
+        binding.btnTime.setOnClickListener {
+            showTimePickerDialog()
+        }
     }
 
-    private fun setupBtnCreateListener() {
-        binding.btnCreate.setOnClickListener {
-            val taskName = binding.etDescription.text.toString()
-            val description = binding.etDescription.text.toString()
-            val time = binding.btnTime
-            viewModel.insertTask(
-                TaskEntityUI(
-                    1,
-                    taskName = taskName,
-                    description = description,
-                    time = time
+    private fun setupBtnCreateListener() = with(binding) {
+        btnCreate.setOnClickListener {
+            selectedTimeInMillis?.let { timeInMillis ->
+                val taskName = etDescription.text.toString()
+                val description = etDescription.text.toString()
+                viewModel.insertTask(
+                    TaskEntityUI(
+                        1,
+                        taskName = taskName,
+                        description = description,
+                        time = timeInMillis
+                    )
                 )
-            )
-            findNavController().popBackStack()
+                findNavController().popBackStack()
+            } ?: Toast.makeText(requireContext(), "Выберите время", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -58,11 +64,10 @@ class TaskCreateFragment : Fragment() {
         TimePickerDialog(
             requireContext(),
             { _, selectedHour, selectedMinute ->
-                val selectedTimeInMillis = Calendar.getInstance().apply {
+                selectedTimeInMillis = Calendar.getInstance().apply {
                     set(Calendar.HOUR_OF_DAY, selectedHour)
                     set(Calendar.MINUTE, selectedMinute)
                 }.timeInMillis
-                // Обновите UI или переменную с выбранным временем
             },
             hour,
             minute,

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imran_mamirov_hw_7_6.databinding.FragmentTaskListBinding
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +25,7 @@ class TaskListFragment : Fragment() {
 
     private val viewModel by viewModel<TaskListViewModel>()
 
-    private val taskListAdapter = TaskListAdapter()
+    private val taskListAdapter = TaskListAdapter(onItemClick = ::onItemClick)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,13 +44,19 @@ class TaskListFragment : Fragment() {
 
     private fun iniFetchTask() {
         viewLifecycleOwner.lifecycleScope.launch {
-            taskListAdapter.submitList(viewModel.fetchTasks().map { it.toUi() })
+            viewModel.fetchTasks().collectLatest {
+                taskListAdapter.submitList(it.map { it.toUi() })
+            }
         }
     }
 
     private fun setupClickListener() {
         binding.btnAdd.setOnClickListener {
-            findNavController().navigate(TaskListFragmentDirections.actionTaskListFragmentToTaskCreateFragment(id))
+            findNavController().navigate(
+                TaskListFragmentDirections.actionTaskListFragmentToTaskCreateFragment(
+                    id
+                )
+            )
         }
     }
 
@@ -73,5 +80,13 @@ class TaskListFragment : Fragment() {
         })
 
         itemTouchHelper.attachToRecyclerView(binding.rvTasksList)
+    }
+
+    private fun onItemClick(taskId: Int) {
+        findNavController().navigate(
+            TaskListFragmentDirections.actionTaskListFragmentToTaskDetailFragment(
+                taskId
+            )
+        )
     }
 }

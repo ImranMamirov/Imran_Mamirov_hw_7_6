@@ -14,8 +14,8 @@
             android:id="@+id/action_taskListFragment_to_taskCreateFragment"
             app:destination="@id/taskCreateFragment" />
         <action
-            android:id="@+id/action_taskListFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            android:id="@+id/action_taskListFragment_to_taskDetailFragment"
+            app:destination="@id/taskDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskCreateFragment"
@@ -27,10 +27,10 @@
             app:argType="integer" />
     </fragment>
     <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.example.imran_mamirov_hw_7_6.ui.fragment.detail.DetailFragment"
+        android:id="@+id/taskDetailFragment"
+        android:name="com.example.imran_mamirov_hw_7_6.ui.fragment.taskDetail.TaskDetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        tools:layout="@layout/fragment_task_detail" >
         <argument
             android:name="id"
             app:argType="integer" />

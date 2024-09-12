@@ -17,11 +17,13 @@ class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
         return taskDao.getTaskById(taskId)?.toDomain()
     }
 
-    override suspend fun deleteTask(taskId: Int) {
+    override suspend fun deleteTask(taskId: Long) {
         taskDao.deleteTask(taskId)
     }
 
     override suspend fun fetchTask(): Flow<List<TaskEntityModel>> {
-        return taskDao.fetchTasks().map { it.map { dto -> dto.toDomain() } }
+        return taskDao.fetchTasks().map { taskList ->
+            taskList.map { it.toDomain() }
+        }
     }
 }
