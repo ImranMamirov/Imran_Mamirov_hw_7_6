@@ -45,7 +45,7 @@ class TaskCreateFragment : Fragment() {
                 val description = etDescription.text.toString()
                 viewModel.insertTask(
                     TaskEntityUI(
-                        1,
+                        0,
                         taskName = taskName,
                         description = description,
                         time = timeInMillis

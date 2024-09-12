@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.imran_mamirov_hw_7_6.models.toUi
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.data.model.TaskEntityDto
+import com.example.domain.model.TaskEntityModel
 import com.example.imran_mamirov_hw_7_6.databinding.FragmentTaskListBinding
+import com.example.imran_mamirov_hw_7_6.models.TaskEntityUI
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,20 +44,23 @@ class TaskListFragment : Fragment() {
 
     private fun iniFetchTask() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.fetchTasks().collectLatest {
-                taskListAdapter.submitList(it.map { it.toUi() })
+            viewModel.fetchTasks().collectLatest { tasks ->
+                val sortedTasks = sortTasksByTime(tasks)
+                val uiTasks = sortedTasks.map { task ->
+                    TaskEntityUI(
+                        taskId = task.taskId,
+                        taskName = task.taskName,
+                        description = task.description,
+                        time = task.time
+                    )
+                }
+                taskListAdapter.submitList(uiTasks)
             }
         }
     }
 
     private fun setupClickListener() {
-        binding.btnAdd.setOnClickListener {
-            findNavController().navigate(
-                TaskListFragmentDirections.actionTaskListFragmentToTaskCreateFragment(
-                    id
-                )
-            )
-        }
+        binding.btnAdd.setOnClickListener(::handleAddButtonClick)
     }
 
     private fun setupRecyclerView() {
@@ -88,5 +91,19 @@ class TaskListFragment : Fragment() {
                 taskId
             )
         )
+    }
+
+    fun handleAddButtonClick(view: View) {
+        findNavController().navigate(
+            TaskListFragmentDirections.actionTaskListFragmentToTaskCreateFragment(
+                id
+            )
+        )
+    }
+
+    fun sortTasksByTime(tasks: List<TaskEntityModel>): List<TaskEntityModel> {
+        return tasks.sortedWith(Comparator { t1, t2 ->
+            t1.time.compareTo(t2.time)
+        })
     }
 }

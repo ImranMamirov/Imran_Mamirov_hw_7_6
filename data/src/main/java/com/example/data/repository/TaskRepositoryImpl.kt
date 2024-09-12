@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.map
 import com.example.data.model.toDomain
 
 class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
-    override suspend fun insertTask(taskEntityModel: TaskEntityModel) {
-        taskDao.insertTask(taskEntityModel.fromDomain())
+    override suspend fun insertTask(taskEntityModel: TaskEntityModel): Long {
+        return taskDao.insertTask(taskEntityModel.fromDomain())
     }
 
     override suspend fun getTaskById(taskId: Int): TaskEntityModel? {
